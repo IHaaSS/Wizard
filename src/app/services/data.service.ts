@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { SelectModel } from '../classes/select-model';
 import { catchError } from 'rxjs/operators';
 import { Answer } from '../classes/answer';
+import { environment } from '../../environments/environment'
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,10 @@ export class DataService {
   events
   entities
 
-  sourceUrl = 'http://127.0.0.1:5000/sources'
-  eventsUrl = 'http://127.0.0.1:5000/events'
-  entitiesUrl = 'http://127.0.0.1:5000/entities'
-  impactsUrl = 'http://127.0.0.1:5000/impacts'
+  sourceUrl = environment.baseUrl +  '/sources'
+  eventsUrl = environment.baseUrl +  '/events'
+  entitiesUrl = environment.baseUrl +  '/entities'
+  impactsUrl = environment.baseUrl +  '/impacts'
 
   constructor(private http: HttpClient) { }
 

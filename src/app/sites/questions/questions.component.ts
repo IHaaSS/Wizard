@@ -7,6 +7,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { CdkStepperModule, CdkStep, CdkStepper, CdkStepperNext } from '@angular/cdk/stepper';
 import { Router } from '@angular/router';
 import { MatInput } from '@angular/material';
+import { environment } from '../../../environments/environment'
 
 @Component({
   selector: 'app-questions',
@@ -102,8 +103,10 @@ subscribe(data => this.questions = data)*/
       selection.value = this.valAnswer/(i+1)
       selection.attributeId= question.attrId
       selection.topicId = question.topicId
-      this.selections[this.index] = selection
+      //this.selections[this.index] = selection
+      //this.selections.push(selection)
       if (this.valAnswer > 0) {
+        this.selections[this.index] = selection
         if (questionObj.children != undefined) {
           console.log("childquestions found")
           this.valAnswer = 0
@@ -246,12 +249,13 @@ subscribe(data => this.questions = data)*/
     var t = JSON.parse(sessionStorage.getItem("answer"))
     this.concluded = true
     this.answer.id = t.id
+    this.answer.phase = t.phase
     this.answer.answers = this.selections
     console.log(this.answer)
     console.log(JSON.stringify(this.answer))
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
-    await this.http.post('http://127.0.0.1:5000/answer', JSON.stringify(this.answer), { headers: headers, responseType: "text" }).subscribe(
+    await this.http.post(environment.baseUrl+'/answer', JSON.stringify(this.answer), { headers: headers, responseType: "text" }).subscribe(
       (val) => {
         console.log(
           val);

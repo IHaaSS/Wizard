@@ -4,13 +4,15 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Incident } from '../model/incident';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AnswerServiceService {
   private myAnswer= new BehaviorSubject<any>(null); 
-  answerUrl = 'http://127.0.0.1:5000/answer'
+  //answerUrl = 'http://127.0.0.1:5000/answer'
+  answerUrl = environment.baseUrl + '/answer'
 
   constructor(private http: HttpClient) { }
 

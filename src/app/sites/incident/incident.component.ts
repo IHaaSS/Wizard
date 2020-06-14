@@ -8,6 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AnswerServiceService } from 'src/app/services/answer-service.service';
 import { DataService } from 'src/app/services/data.service';
+import { environment } from '../../../environments/environment'
 
 @Component({
   selector: 'app-incident',
@@ -34,12 +35,9 @@ export class IncidentComponent implements OnInit {
   impactTree:{}
   entitiesTree:{}
   eventsTree:{}
-
-  loading: boolean = false;
-
+  loading: boolean = true;
   concluded: boolean = false;
   stixIncidentUrl = "";
-
   buttonNext: string = "Next";
 
   wizardControler: Wizard;
@@ -50,15 +48,12 @@ export class IncidentComponent implements OnInit {
   }
 
   async ngOnInit():Promise<void> {
-    this.done = false
     await this.getData();
     this.incident = this.incidentService.getIncidents();
     this.wizardControler = new Wizard(this);
     let buttonNext = document.querySelector('.next');
     let buttonPrevious = document.querySelector('.previous');
-
     this.wizardControler.addControls(buttonPrevious, buttonNext);
-    this.done = true
   }
 
   async getData(): Promise<void> {
@@ -83,8 +78,6 @@ export class IncidentComponent implements OnInit {
     let iList = JSON.stringify(i[0])
     let iTemp = JSON.parse(iList)
     this.impactTree = iTemp;
-
-
   }
 
   addSource(): void{
@@ -134,7 +127,7 @@ export class IncidentComponent implements OnInit {
     console.log(JSON.stringify(this.incident))
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
-    this.http.post('http://127.0.0.1:5000/user_incidents', JSON.stringify(this.incident), {headers: headers}).subscribe(
+    this.http.post( environment.baseUrl+'/user_incidents', JSON.stringify(this.incident), {headers: headers}).subscribe(
       (val) => {
           console.log(
                       val);
